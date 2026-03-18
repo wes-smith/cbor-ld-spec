@@ -569,7 +569,7 @@ document `jsonldDocument` as inputs, and returns a hexadecimal string `cborldByt
         <ol>
           <li>
 Set `prefix` to the result of passing `registryEntryId` to
-<a href="#get-varint-structure-algorithm"></a>.
+<a href="#get-cbor-tag-structure-algorithm"></a>.
           </li>
           <li>
 Set `state` to an empty map.
@@ -610,7 +610,7 @@ This algorithm takes a CBOR-LD payload `cborldBytes`, and returns a JSON-LD docu
         <ol>
           <li>
 Set `result` to the result of passing `registryEntryId` and `cborldBytes` to
-<a href="#get-varint-structure-algorithm"></a>.
+<a href="#get-cbor-tag-structure-algorithm"></a>.
           </li>
           <li>
 Set `state`.`registryEntryId` to `result`.`registryEntryId` and `suffix` to `result`.`suffix`.

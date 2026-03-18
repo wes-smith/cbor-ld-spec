@@ -561,7 +561,7 @@ compression feature and are not used in conversions between CBOR-LD and JSON-LD 
 the CBOR-LD payload does not use semantic compression.
       <h2>Encoding and Decoding</h2>
       <section>
-        <h3>JSON-LD to CBOR-LD Algorithm</h3>
+        <h3>JSON-LD to CBOR-LD Encoding Algorithm</h3>
         <p>
 This algorithm takes a map `typeTable`, an integer `registryEntryId`, and a JSON-LD
 document `jsonldDocument` as inputs, and returns a hexadecimal string `cborldBytes`.
@@ -611,7 +611,7 @@ Return `cborldBytes`.
         </ol>
       </section>
       <section>
-        <h3>CBOR-LD to JSON-LD Decompression Algorithm</h3>
+        <h3>CBOR-LD to JSON-LD Decoding Algorithm</h3>
         <p>
 This algorithm takes a CBOR-LD payload `cborldBytes`, and returns a JSON-LD document `jsonldDocument`.
         </p>

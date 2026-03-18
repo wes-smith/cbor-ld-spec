@@ -2169,38 +2169,15 @@ Return `decoderData`.`decoded`.
     <section>
       <h2>CBOR Tag Processing</h2>
       <section>
-        <h3>Get Varint Structure Algorithm</h3>
+        <h3>Get CBOR Tag Structure Algorithm</h3>
 This algorithm takes as input an integer `registryEntryId`, and returns a byte string `prefix`.
         <ol>
           <li>
-If `registryEntryId` is less than 128:
-            <ol>
-              <li>
-Set `varintEncoded` to the byte encoding of `registryEntryId`.
-              </li>
-              <li>
-Set `prefix` to the result of appending `varintEncoded` to the end of the bytes
-`0xD906`.
-              </li>
-            </ol>
+Set `registryEntryBytes` to the CBOR encoding of `registryEntryID`
           </li>
           <li>
-Otherwise:
-            <ol>
-              <li>
-Set `varintArray` to an array containing the varint representation of `registryEntryId`.
-              </li>
-              <li>
-Set `varintTagValue` to `varintArray[0]` appended to the end of the bytes `0xD906`.
-              </li>
-              <li>
-Set `varintBytesValue` to a CBOR byte string containing the rest of `varintArray` appended
-to the end of the bytes `0x82`.
-              </li>
-              <li>
-Set `prefix` to `varintBytesValue` appended to the end of `varintTagValue`.
-              </li>
-            </ol>
+Set `prefix` to the result of appending `registryEntryBytes` to the end
+of the bytestring `0xD9CB1D82`
           </li>
           <li>
 Return `prefix`.
@@ -2216,37 +2193,26 @@ should be used to decompress `suffix`.
         </p>
         <ol>
           <li>
-If the CBOR tag on `cborldBytes` is not in the range `0x0600`-`0x06FF`, throw an
-ERR_NON_CBOR_LD_TAG error.
+If the CBOR tag on `cborldbytes` is not `0xCB1D` (tag value 51997),
+throw an `ERR_NON_CBOR_LD_TAG` error.
           </li>
           <li>
-Otherwise, if the CBOR tag on `cborldBytes` is in the range `0x0600`-`0x067F`, set `registryEntryId` to
-the value of the last byte of the CBOR tag and set `suffix` to the portion of `cborldBytes` after the tag.
+If the tagged item is not an array of two elements where the first is a CBOR integer,
+throw an `ERR_INVALID_PAYLOAD_STRUCTURE` error.
           </li>
           <li>
-Otherwise:
-            <ol>
-              <li>
-If the last byte of the CBOR tag does not form the first byte of a valid varint, throw an
-`ERR_INVALID_VARINT_VALUE` error.
-              </li>
-              <li>
-If the CBOR tagged item is not an array containing exactly two elements, throw an `ERR_INVALID_VARINT_STRUCTURE`
-error.
-              </li>
-              <li>
-Otherwise, set the value of `registryEntryId` to the value of the varint for which the first byte is the last
-byte of the CBOR tag and the rest of the varint is the first element in the two element array. Set `suffix` to the
-value of the second element in the array.
-              </li>
-            </ol>
-
+Set the value of `registryEntryId` to the value of the integer at index 0 of the tagged
+array.
+          </li>
+          <li>
+Set the value of `suffix` to the value of the second element of the array.
           </li>
           <li>
 Set `result` to be an empty map.
           </li>
           <li>
-Set `result`.`suffix` to the value of `suffix` and `result`.`registryEntryId` to the value of `registryEntryId`.
+Set `result`.`suffix` to the value of `suffix` and `result`.`registryEntryId` to
+the value of `registryEntryId`.
           </li>
           <li>
 Return `result`.

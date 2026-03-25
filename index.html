@@ -464,14 +464,13 @@ the following:
     </p>
     <ul>
       <li>
-Determine if JSON-LD can be compressed (@context values in JSON-LD document that
+Determine if JSON-LD can be compressed (find `@context` values in JSON-LD document that
 reference contexts via URLs - embedded context values cannot be compressed)
       </li>
       <li>
-Process a JSON-LD Context, building a CBOR-LD term codec map -- a list
-of all terms that can be compressed (and whether or not their values can be
-compressed). Sort the list. Associate byte values with each term starting at 0
-and counting up.
+Process the JSON-LD contexts, building a CBOR-LD term codec map - a list
+of all terms that can be compressed. Sort the list. Associate byte values
+with each term starting at 0 and counting up.
       </li>
       <li>
 Encoding the JSON-LD Document as CBOR-LD consists of replacing every key with

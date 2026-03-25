@@ -424,6 +424,39 @@ JSON-LD processing.
 
   <section class="informative">
     <h1>Basic Concept</h1>
+    <p>
+At a high level, CBOR-LD is a compact, binary serialization for JSON-LD that allows
+the following mechanisms for additional compression:
+      <ul>
+        <li>
+<b>Semantic compression</b>: dynamically create a mapping from JSON-LD terms to integers
+by parsing JSON-LD context objects included in a JSON-LD document. Create this mapping
+in an invertible way.
+        </li>
+        <li>
+<b>Typed value compression (codec)</b>: dynamically compress typed values in an invertible way
+based on an a priori understanding of the data type (e.g. remove scheme strings from URLs).
+        </li>
+        <li>
+<b>Typed value compression (registry dictionary)</b>: create static dictionaries, listed in
+a CBOR-LD Registry Entry, for use-case-specific typed value compression.
+        </li>
+      </ul>
+      </p>
+      <p>
+Each of these is optional - CBOR-LD can be used with any, all, or none of the above compression
+strategies. Taken together, the set of the above strategies that is used for a particular use
+case is known as a <i>processing model</i>.
+      </p>
+    </p>
+  </section>
+  <section class="informative">
+    <h1>Semantic Compression</h1>
+      <p>
+
+      </p>
+
+The first step in decoding a CBOR-LD payload is to recreate the term codec map that was used to encode it by processing the contexts in the payload. However, the contexts needed to create the term codec map can have their URLs encoded as integers by CBOR-LD. If a CBOR-LD payload contains context URLs compressed in such a way, the consumer of the CBOR-LD needs to know what compression tables (maps from JSON-LD terms to integers) were used to compress the context URLs during creation to be able to reconstruct the term codec map. The following sections define the exact mechanism by which this can be accomplished, allowing an arbitrary CBOR-LD consumer to decompress any CBOR-LD payload that conforms to this specification.
 
     <p>
 The general CBOR-LD encoding algorithm takes a JSON-LD Document and does
@@ -477,15 +510,6 @@ integer is a CBOR-LD Registry Entry ID.
 The value of the CBOR-LD Registry Entry ID is then used to look up a <b>CBOR-LD Registry Entry</b>
 in the <b>CBOR-LD Registry</b>.
       </p>
-
-The first step in decoding a CBOR-LD payload is to recreate the term codec
-map that was used to encode it by processing the contexts in the payload. However,
-the contexts needed to create the term codec map can have their URLs encoded as integers
-by CBOR-LD. If a CBOR-LD payload contains context URLs compressed in such a way, the
-consumer of the CBOR-LD needs to know what compression tables (maps from JSON-LD terms to integers)
-were used to compress the context URLs during creation to be able to reconstruct the term codec
-map. The following sections define the exact mechanism by which this can be accomplished, allowing
-an arbitrary CBOR-LD consumer to decompress any CBOR-LD payload that conforms to this specification.
     <section>
       <h2>CBOR-LD Registry</h2>
       <p>

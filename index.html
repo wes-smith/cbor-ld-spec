@@ -430,21 +430,22 @@ the following mechanisms for additional compression:
       <ul>
         <li>
 <b>Semantic compression</b>: dynamically create a mapping from JSON-LD terms to integers
-by parsing JSON-LD context objects included in a JSON-LD document. Create this mapping
+by parsing JSON-LD contexts used by  a JSON-LD document. Create this mapping
 in an invertible way.
         </li>
         <li>
-<b>Typed value compression (codec)</b>: dynamically compress typed values in an invertible way
-based on an a priori understanding of the data type (e.g. remove scheme strings from URLs).
+<b>Typed value compression (codec)</b>: dynamically compress typed values in an invertible
+way based on an <i>a priori</i> understanding of the data type (e.g., remove scheme
+strings from URLs).
         </li>
         <li>
-<b>Typed value compression (registry dictionary)</b>: create static dictionaries, listed in
-a CBOR-LD Registry Entry, for use-case-specific typed value compression.
+<b>Typed-value compression (registry dictionary)</b>: create static dictionaries, listed in
+a CBOR-LD Registry Entry, for use-case-specific typed-value compression.
         </li>
       </ul>
       </p>
       <p>
-Each of these is optional - CBOR-LD can be used with any, all, or none of the above compression
+Each of these is optional — CBOR-LD can be used with any, all, or none of the above compression
 strategies. Taken together, the set of the above strategies that is used for a particular use
 case is known as a <i>processing model</i>.
       </p>
@@ -454,9 +455,9 @@ case is known as a <i>processing model</i>.
     <h1>Semantic Compression</h1>
       <p>
 Semantic compression is a powerful tool for creating compact CBOR-LD payloads. The core idea is
-to use the information content in external JSON-LD context objects to compress JSON-LD terms.
-Because these context objects are available to both the creator and the consumer of the payload,
-this is done in an invertible way.
+to use the information content of external JSON-LD context objects to compress JSON-LD terms.
+These context objects are available to both the creator and the consumer of the payload,
+so this is done in an invertible way.
     </p>
     <p>
 The general semantic compression process is to take a JSON-LD Document and do
@@ -464,21 +465,21 @@ the following:
     </p>
     <ul>
       <li>
-Determine if JSON-LD can be compressed (find `@context` values in JSON-LD document that
-reference contexts via URLs - embedded context values cannot be compressed)
+Determine whether JSON-LD can be compressed (find `@context` values in JSON-LD document
+that reference contexts via URIs — embedded context values cannot be compressed)
       </li>
       <li>
-Process the JSON-LD contexts, building a CBOR-LD term codec map - a list
+Process the JSON-LD contexts, building a CBOR-LD term codec map — a list
 of all terms that can be compressed. Sort the list. Associate byte values
 with each term starting at 0 and counting up.
       </li>
       <li>
 Encoding the JSON-LD Document as CBOR-LD consists of replacing every key with
-the byte value associated with the term.
+the byte value associated with the term from the term codec map.
       </li>
       <li>
-Decoding the CBOR-LD Bytes as JSON-LD consists of replacing every CBOR byte value with
-the associated key in the term codec map.
+Decoding the CBOR-LD bytes to JSON-LD consists of replacing every CBOR byte value
+with the associated key from the term codec map.
       </li>
     </ul>
   </section>
@@ -487,14 +488,15 @@ the associated key in the term codec map.
     <h1>CBOR Tags for CBOR-LD</h1>
     <p>
 CBOR-LD payloads need to be identifiable as such at the binary level. CBOR natively supports
-this via its "tag" feature - a header value in the binary data describes the rest of the payload
+this via its "tag" feature — a header value in the binary data describes the rest of the payload
 via a global registry.
     </p>
     <p>
-To this end, the CBOR tag `0xCB1D` (tag value 51997) has been registered at
-<a href="https://www.iana.org/assignments/cbor-tags/cbor-tags.xhtml">the IANA CBOR tag registry</a> to be used for CBOR-LD.
-The data that immediately follows this tag value identifies what use-case-specific registry entry (if any) was used to create
-the compressed payload.
+To this end, the CBOR tag `0xCB1D` (tag value `51997`) has been registered
+at <a href="https://www.iana.org/assignments/cbor-tags/cbor-tags.xhtml">the
+IANA CBOR tag registry</a> to be used for CBOR-LD. The data that immediately
+follows this tag value identifies the use-case-specific registry entry (if
+any) that was used to create the compressed payload.
     </p>
     <p>
 CBOR-LD payloads MUST be structured such that the item tagged with tag `0xCB1D` is

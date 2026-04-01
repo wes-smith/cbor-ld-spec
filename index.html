@@ -446,9 +446,11 @@ a CBOR-LD Registry Entry, for use-case-specific typed-value compression.
       </ul>
       </p>
       <p>
-Each of these is optional — CBOR-LD can be used with any, all, or none of the above compression
-strategies. Taken together, the set of the above strategies that is used for a particular use
-case is known as a <i>processing model</i>.
+Codecs are the basic primitive to compress typed values in a generic way. Semantic compression
+is for compressing JSON-LD terms. Registry dictionaries are for comprising typed values in a
+use-case-specific way. Each of these is optional — CBOR-LD can be used with any, all, or none of
+the above compression strategies. Taken together, the set of the above strategies that is used for
+a particular use case is known as a <i>processing model</i>.
       </p>
     </p>
   </section>

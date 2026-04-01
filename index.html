@@ -434,7 +434,8 @@ by parsing JSON-LD contexts used by  a JSON-LD document. Create this mapping
 in an invertible way.
         </li>
         <li>
-<b>Typed value compression (codec)</b>: dynamically compress typed values in an invertible
+<b>Typed-value compression (codec)</b>: dynamically compress typed values in an invertible
+
 way based on an <i>a priori</i> understanding of the data type (e.g., remove scheme
 strings from URLs).
         </li>
@@ -463,10 +464,12 @@ so this is done in an invertible way.
 The general semantic compression process is to take a JSON-LD Document and do
 the following:
     </p>
-    <ul>
+    <ol>
+
       <li>
 Determine whether JSON-LD can be compressed (find `@context` values in JSON-LD document
-that reference contexts via URIs — embedded context values cannot be compressed)
+that reference contexts via URIs; embedded context values cannot be compressed)
+
       </li>
       <li>
 Process the JSON-LD contexts, building a CBOR-LD term codec map — a list
@@ -474,22 +477,28 @@ of all terms that can be compressed. Sort the list. Associate byte values
 with each term starting at 0 and counting up.
       </li>
       <li>
-Encoding the JSON-LD Document as CBOR-LD consists of replacing every key with
+Encode the JSON-LD Document as CBOR-LD. This consists of replacing every key with
+
 the byte value associated with the term from the term codec map.
       </li>
       <li>
-Decoding the CBOR-LD bytes to JSON-LD consists of replacing every CBOR byte value
+Decode the CBOR-LD bytes to JSON-LD. This consists of replacing every CBOR byte value
+
 with the associated key from the term codec map.
+
       </li>
-    </ul>
+    </ol>
+
   </section>
 
   <section class="normative">
     <h1>CBOR Tags for CBOR-LD</h1>
     <p>
 CBOR-LD payloads need to be identifiable as such at the binary level. CBOR natively supports
-this via its "tag" feature — a header value in the binary data describes the rest of the payload
-via a global registry.
+this via its "tag" feature — a header value in the binary data that describes the rest of the
+
+payload via a global registry.
+
     </p>
     <p>
 To this end, the CBOR tag `0xCB1D` (tag value `51997`) has been registered

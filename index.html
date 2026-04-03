@@ -429,28 +429,27 @@ At a high level, CBOR-LD is a compact, binary serialization for JSON-LD that all
 the following mechanisms for additional compression:
       <ul>
         <li>
-<b>Semantic compression</b>: dynamically create a mapping from JSON-LD terms to integers
-by parsing JSON-LD contexts used by  a JSON-LD document. Create this mapping
-in an invertible way.
+<b>Semantic compression</b>: Dynamically creates a mapping from JSON-LD terms to integers,
+by parsing JSON-LD contexts used by a JSON-LD document. These mappings are created
+in an invertible way.
         </li>
         <li>
-<b>Typed-value compression (codec)</b>: dynamically compress typed values in an invertible
-
-way based on an <i>a priori</i> understanding of the data type (e.g., remove scheme
-strings from URLs).
+<b>Typed-value compression (codec)</b>: Dynamically compresses typed values in an invertible
+way, based on an <i>a priori</i> understanding of the data type (e.g., removes scheme
+strings from URLs).
         </li>
         <li>
-<b>Typed-value compression (registry dictionary)</b>: create static dictionaries, listed in
-a CBOR-LD Registry Entry, for use-case-specific typed-value compression.
+<b>Typed-value compression (registry dictionary)</b>: Creates static dictionaries, listed in
+a CBOR-LD Registry Entry, for use-case-specific typed-value compression.
         </li>
       </ul>
       </p>
       <p>
-Codecs are the basic primitive to compress typed values in a generic way. Semantic compression
-is for compressing JSON-LD terms. Registry dictionaries are for comprising typed values in a
-use-case-specific way. Each of these is optional — CBOR-LD can be used with any, all, or none of
-the above compression strategies. Taken together, the set of the above strategies that is used for
-a particular use case is known as a <i>processing model</i>.
+Codecs are the basic primitive for compressing typed values in a generic way. Semantic compression
+is for compressing JSON-LD terms. Registry dictionaries are for compressing typed values in a
+use-case-specific way. Each of these is optional — CBOR-LD can be used with any, all, or none of
+these compression strategies. Taken together, the set of these strategies that is used for
+a particular use case is known as a <i>processing model</i>.
       </p>
     </p>
   </section>
@@ -476,7 +475,7 @@ that reference contexts via URIs; embedded context values cannot be compressed)
       <li>
 Process the JSON-LD contexts, building a CBOR-LD term codec map — a list
 of all terms that can be compressed. Sort the list. Associate byte values
-with each term starting at 0 and counting up.
+with each term, starting at 0 and counting up.
       </li>
       <li>
 Encode the JSON-LD Document as CBOR-LD. This consists of replacing every key with
